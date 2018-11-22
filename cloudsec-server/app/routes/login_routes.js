@@ -1,10 +1,17 @@
+var login = require('./../broker/login');
+
+
 module.exports = function(app, db) {
     app.post('/login', (req, res) => {
 
-      // log authorization in base 64
-      console.log(req.headers.authorization)
+      basicAuthorization = req.headers.authorization.split(' ')[1];
+      var credentials = Buffer.from(basicAuthorization, 'base64').toString();
+      var username = credentials.split(':')[0];
+      var password = credentials.split(':')[1];
 
-      res.send('Worked')
+      var authorised = login.login(username, password);
+
+      res.send(authorised)
     });
 };
 
