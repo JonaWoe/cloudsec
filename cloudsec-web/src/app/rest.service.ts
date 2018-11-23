@@ -20,17 +20,14 @@ export class RestService {
     return body || {};
   }
 
-  login(username, password) {
-    console.log(username, password);
+  login(username, password): any {
+
     let credentials = username + ":" + password;
+
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Basic " + btoa(credentials))
     headers = headers.append("Content-Type", "application/x-www-form-urlencoded");
-    this.http.post(endpoint, '', { headers: headers }).subscribe(response => {
-      console.log(response);
-    }, err => {
-      console.log("Auth failed");
-    }
-    );
+
+    return this.http.post(endpoint, '', { headers: headers });
   }
 }

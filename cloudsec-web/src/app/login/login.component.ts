@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from './../rest.service';
+import { Router } from "@angular/router"
 
 @Component({
   selector: 'app-login',
@@ -7,17 +8,42 @@ import { RestService } from './../rest.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  
+  username = '';
+  password = '';
 
 
-  constructor(private service: RestService) { 
+  constructor(private service: RestService, private router: Router) { 
   }
 
   ngOnInit() {
-    let username = '';
-    let password = '';
   }
 
-  clickLogin(username, password) {
-    this.service.login(username, password);
+  clickLogin() {
+
+    let res = this.service.login(this.username, this.password);
+
+    res.subscribe(response => {
+
+      let username = (response as any).username;
+      let role = (response as any).role;
+
+      localStorage.setItem('username', username );
+      localStorage.setItem('role', role);
+
+      if (role === '1') {
+        this.router.navigate(['/admin']);
+      } else if (role === '2') {
+        this.router.navigate(['/user']);
+      } else {
+        // username/password falsch
+      }
+    }, err => {
+      // login fehlgeschlagen
+    });
+  }
+
+  clickBack() {
+    this.router.navigate(['/home']);
   }
 }

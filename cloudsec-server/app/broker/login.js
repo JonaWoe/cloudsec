@@ -40,7 +40,7 @@ module.exports = {
 
         var res = {
             username: '',
-            role: 0
+            role: ''
         };
 
         users.forEach(user => {
