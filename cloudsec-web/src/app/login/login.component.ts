@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
   username = '';
   password = '';
 
+  error = false;
+
 
   constructor(private service: RestService, private router: Router) { 
   }
@@ -36,10 +38,11 @@ export class LoginComponent implements OnInit {
       } else if (role === '2') {
         this.router.navigate(['/user']);
       } else {
-        // username/password falsch
+        this.error = true;
+        console.log(this.error)
       }
     }, err => {
-      // login fehlgeschlagen
+      this.error = true;
     });
   }
 

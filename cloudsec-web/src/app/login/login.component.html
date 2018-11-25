@@ -15,6 +15,9 @@
           <button (click)="clickLogin()" type="submit" class="btn btn-success float-right">Login</button>
         </div>
       </form>
+      <div class="alert alert-danger error" role="alert" [hidden]="!error">
+        Login fehlgeschlagen!
+      </div>
     </div>
   </div>
 </div>
