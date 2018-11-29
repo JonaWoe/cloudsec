@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router"
+import { Router } from '@angular/router';
+import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-logout',
@@ -13,12 +14,11 @@ export class LogoutComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.username = localStorage.getItem('username');
+    this.username = jwt_decode(sessionStorage.getItem('jwtBearerToken')).sub;
   }
 
   clickLogout() {
-    localStorage.removeItem('username');
-    localStorage.removeItem('role')
+    sessionStorage.removeItem('jwtBearerToken');
     this.router.navigate(['/home']);
   }
 

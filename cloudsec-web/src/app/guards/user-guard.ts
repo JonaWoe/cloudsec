@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class UserGuard implements CanActivate {
@@ -10,13 +11,14 @@ export class UserGuard implements CanActivate {
 
     canActivate(): boolean {
 
-      if(localStorage.getItem('username') && localStorage.getItem('role') === '2' ) {
-          return true;
-      } else {
-          this.router.navigate(['/home']);
-          return false;
-      }
+        var jwtBearerToken = sessionStorage.getItem('jwtBearerToken');
 
-    }
+        if (jwtBearerToken && jwt_decode(jwtBearerToken).aud === '2') {
+            return true;
+        } else {
+            this.router.navigate(['/home']);
+            return false;
+        }   
+    }    
 
 }

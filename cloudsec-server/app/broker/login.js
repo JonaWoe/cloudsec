@@ -1,5 +1,6 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 
 const users = [
     {
@@ -35,31 +36,26 @@ const users = [
 
 ]
 
-var RSA_PRIVATE_KEY = fs.readFileSync('./keyStore/private.key','utf8');
+var RSA_PRIVATE_KEY = fs.readFileSync(path.resolve(__dirname, 'keyStore/private.key'),'utf8');
 
 module.exports = {
     login: function (username, password) {
 
-        var res = {
-            username: '',
-            role: ''
-        };
+        var res = { jwtBearerToken: ''};
 
         users.forEach(user => {
             if (user.username === username && user.password === password) {
-                res.username = user.username;
-                res.role = user.role;
-
                 
-                const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
+               res.jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
                     algorithm: 'RS256',
                     expiresIn: 120,
-                    subject: user.username
-                });
+                    subject: user.username,
+                    audience: user.role
+                });         
             }
         })
 
-        return jwtBearerToken;   
+        return res; 
     }
 };
 

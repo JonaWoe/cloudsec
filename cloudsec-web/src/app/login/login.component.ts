@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from './../rest.service';
-import { Router } from "@angular/router"
+import { Router } from '@angular/router';
+import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -25,13 +26,16 @@ export class LoginComponent implements OnInit {
 
     let res = this.service.login(this.username, this.password);
 
+
     res.subscribe(response => {
 
-      let username = (response as any).username;
-      let role = (response as any).role;
+      var jwtBearerToken = response.jwtBearerToken;
+      sessionStorage.setItem('jwtBearerToken', jwtBearerToken);
 
-      localStorage.setItem('username', username );
-      localStorage.setItem('role', role);
+      var decodedToken = jwt_decode(jwtBearerToken);
+
+      let username = decodedToken.sub;
+      let role = decodedToken.aud;
 
       if (role === '1') {
         this.router.navigate(['/admin']);
@@ -42,6 +46,7 @@ export class LoginComponent implements OnInit {
         console.log(this.error)
       }
     }, err => {
+      console.log(err)
       this.error = true;
     });
   }
