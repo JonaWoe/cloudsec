@@ -9,9 +9,11 @@ module.exports = function(app, db) {
       var username = credentials.split(':')[0];
       var password = credentials.split(':')[1];
 
-      var authorised = login.login(username, password);
+      var authorisation = login.login(username, password);
 
-      res.send(authorised)
+      console.log(authorisation);
+
+      res.send(authorisation)
     });
 };
 

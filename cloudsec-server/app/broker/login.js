@@ -1,5 +1,5 @@
-const test_username = 'admin';
-const test_password = 'admin';
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
 
 const users = [
     {
@@ -35,6 +35,8 @@ const users = [
 
 ]
 
+var RSA_PRIVATE_KEY = fs.readFileSync('./keyStore/private.key','utf8');
+
 module.exports = {
     login: function (username, password) {
 
@@ -47,10 +49,17 @@ module.exports = {
             if (user.username === username && user.password === password) {
                 res.username = user.username;
                 res.role = user.role;
+
+                
+                const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
+                    algorithm: 'RS256',
+                    expiresIn: 120,
+                    subject: user.username
+                });
             }
         })
 
-        return res;   
+        return jwtBearerToken;   
     }
 };
 

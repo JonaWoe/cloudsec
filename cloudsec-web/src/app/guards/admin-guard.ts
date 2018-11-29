@@ -10,7 +10,8 @@ export class AdminGuard implements CanActivate {
   
       canActivate(): boolean {
           if(localStorage.getItem('username') && localStorage.getItem('role') === '1' ) {
-              return true;
+            // get token and check validation  
+            return true;
           } else {
             this.router.navigate(['/home']);
             return false;
