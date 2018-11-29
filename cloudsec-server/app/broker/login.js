@@ -4,12 +4,12 @@ const jwt = require('jsonwebtoken');
 const users = [
     {
         username: 'admin',
-        password:'admin',
+        password:'ucUQFOcwi4',
         role: '1'
     },
     {
         username: 'jona',
-        password:'admin',
+        password:'jHwDPbzWevOA0GCZKSlE',
         role: '1'
     },
     {
@@ -24,7 +24,7 @@ const users = [
     },
     {
         username: 'fabian',
-        password:'admin',
+        password:'B^32~qqC}=Sc,3jyJ9Uq%Nq8\tN#Qp+1fW>*{4ie',
         role: '2'
     },
     {
