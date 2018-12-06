@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { RestService } from './../rest.service';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
+import {AuthService,
+  FacebookLoginProvider,
+  GoogleLoginProvider} from 'angular-6-social-login';
 
 @Component({
   selector: 'app-login',
@@ -16,10 +19,28 @@ export class LoginComponent implements OnInit {
   error = false;
 
 
-  constructor(private service: RestService, private router: Router) { 
+  constructor(private service: RestService, private router: Router, private socialAuthService: AuthService) { 
   }
 
   ngOnInit() {
+  }
+
+  public socialSignIn(socialPlatform : string) {
+    let socialPlatformProvider;
+    if(socialPlatform == "facebook"){
+      socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+    }else if(socialPlatform == "google"){
+      socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+    }
+    
+    this.socialAuthService.signIn(socialPlatformProvider).then(
+      (userData) => {
+        console.log(socialPlatform+" sign in data : " , userData);
+        // Now sign-in with userData
+        // ...
+            
+      }
+    );
   }
 
   clickLogin() {
