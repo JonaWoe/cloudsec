@@ -2,12 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { RestService } from './../rest.service';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
+import {
+  AuthService,
+  FacebookLoginProvider,
+  GoogleLoginProvider
+} from 'angular-6-social-login';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
   
   username = '';
@@ -59,4 +65,6 @@ export class LoginComponent implements OnInit {
   clickBack() {
     this.router.navigate(['/home']);
   }
+
+  
 }

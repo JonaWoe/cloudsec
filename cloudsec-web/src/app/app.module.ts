@@ -13,6 +13,12 @@ import { AuthGuard } from './guards/auth-guard';
 import { UserGuard } from './guards/user-guard';
 import { AdminGuard } from './guards/admin-guard';
 import { LogoutComponent } from './logout/logout.component';
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from 'angular-6-social-login';
 
 @NgModule({
   declarations: [
@@ -27,9 +33,30 @@ import { LogoutComponent } from './logout/logout.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    SocialLoginModule
   ],
-  providers: [AuthGuard, UserGuard, AdminGuard],
+  providers: [AuthGuard, UserGuard, AdminGuard,
+    {
+    provide: AuthServiceConfig,
+    useFactory: getAuthServiceConfigs
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+      [
+        {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider("1875289179426089")
+        },
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider("143877716193-rtqr27s150356d3o3qi6ahetv3bqu217.apps.googleusercontent.com")
+        }
+      ]
+  );
+  return config;
+}
