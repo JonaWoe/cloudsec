@@ -5,7 +5,7 @@ const path = require('path');
 const users = [
     {
         username: 'admin',
-        password:'ucUQFOcwi4',
+        password:'admin',
         role: '1'
     },
     {

@@ -30,20 +30,25 @@ export class LoginComponent implements OnInit {
     res.subscribe(response => {
 
       var jwtBearerToken = response.jwtBearerToken;
-      sessionStorage.setItem('jwtBearerToken', jwtBearerToken);
 
-      var decodedToken = jwt_decode(jwtBearerToken);
+      if (jwtBearerToken) {
 
-      let username = decodedToken.sub;
-      let role = decodedToken.aud;
+        sessionStorage.setItem('jwtBearerToken', jwtBearerToken);
 
-      if (role === '1') {
-        this.router.navigate(['/admin']);
-      } else if (role === '2') {
-        this.router.navigate(['/user']);
+        var decodedToken = jwt_decode(jwtBearerToken);
+
+        let username = decodedToken.sub;
+        let role = decodedToken.aud;
+
+        if (role === '1') {
+          this.router.navigate(['/admin']);
+        } else if (role === '2') {
+          this.router.navigate(['/user']);
+        } else {
+          this.error = true;
+        }
       } else {
         this.error = true;
-        console.log(this.error)
       }
     }, err => {
       console.log(err)
